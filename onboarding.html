@@ -210,6 +210,24 @@
       box-shadow: 0 0 0 3px rgba(41, 124, 130, 0.12);
     }
 
+    input:read-only {
+      background-color: #F0F4F3;
+      cursor: not-allowed;
+      color: var(--text-muted);
+    }
+
+    input:read-only:focus {
+      border-color: var(--border-color);
+      box-shadow: none;
+    }
+
+    .readonly-note {
+      display: none;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
     /* Submit Button */
     .btn-submit {
       margin-top: 12px;
@@ -286,6 +304,7 @@
         <div class="form-group">
           <label for="fullName">Full name</label>
           <input type="text" id="fullName" name="fullName" placeholder="How should we call you?" required />
+          <small id="name-hint" class="readonly-note">✓ Pre-filled from your account</small>
         </div>
 
         <!-- Age & Weight Row -->
@@ -307,6 +326,7 @@
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          <small id="email-hint" class="readonly-note">✓ Verified from your account</small>
         </div>
 
         <!-- Gender -->
@@ -357,9 +377,13 @@
           const user = JSON.parse(stored);
           if (user.name && !document.getElementById('fullName').value) {
             document.getElementById('fullName').value = user.name;
+            document.getElementById('fullName').readOnly = true;
+            document.getElementById('name-hint').style.display = 'block';
           }
           if (user.email && !document.getElementById('email').value) {
             document.getElementById('email').value = user.email;
+            document.getElementById('email').readOnly = true;
+            document.getElementById('email-hint').style.display = 'block';
           }
         } catch (e) {
           console.error(e);
