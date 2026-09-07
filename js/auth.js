@@ -51,7 +51,8 @@ function handleCredentialResponse(response) {
       name: user.name,
       given_name: user.given_name || user.name,
       email: user.email,
-      picture: user.picture
+      picture: user.picture,
+      phone: user.phone || null
     };
     sessionStorage.setItem('sandusula_user', JSON.stringify(profile));
     handleAuthSuccess(profile);
@@ -77,6 +78,8 @@ async function fetchAndSaveUserProfile(accessToken) {
       headers: { Authorization: `Bearer ${accessToken}` }
     });
     const user = await response.json();
+    // Ensure phone field exists even if null
+    user.phone = user.phone || null;
     sessionStorage.setItem('sandusula_user', JSON.stringify(user));
     handleAuthSuccess(user);
   } catch (err) {

@@ -228,6 +228,10 @@
       margin-top: 4px;
     }
 
+    .readonly-note.visible {
+      display: block;
+    }
+
     /* Submit Button */
     .btn-submit {
       margin-top: 12px;
@@ -329,6 +333,13 @@
           <small id="email-hint" class="readonly-note">✓ Verified from your account</small>
         </div>
 
+        <!-- Phone Number -->
+        <div class="form-group">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required />
+          <small id="phone-hint" class="readonly-note">✓ Pre-filled from your account</small>
+        </div>
+
         <!-- Gender -->
         <div class="form-group">
           <label for="gender">Gender</label>
@@ -369,21 +380,25 @@
   </main>
 
   <script>
-    // Autofill name and email if logged in via Google/Session
+    // Autofill name, email, and phone if logged in via Google/Session
     window.addEventListener('DOMContentLoaded', () => {
       const stored = sessionStorage.getItem('sandusula_user');
       if (stored) {
         try {
           const user = JSON.parse(stored);
-          if (user.name && !document.getElementById('fullName').value) {
+          if (user.name) {
             document.getElementById('fullName').value = user.name;
-            document.getElementById('fullName').readOnly = true;
-            document.getElementById('name-hint').style.display = 'block';
+            document.getElementById('name-hint').classList.add('visible');
           }
-          if (user.email && !document.getElementById('email').value) {
+          if (user.email) {
             document.getElementById('email').value = user.email;
             document.getElementById('email').readOnly = true;
-            document.getElementById('email-hint').style.display = 'block';
+            document.getElementById('email-hint').classList.add('visible');
+          }
+          if (user.phone) {
+            document.getElementById('phone').value = user.phone;
+            document.getElementById('phone').readOnly = true;
+            document.getElementById('phone-hint').classList.add('visible');
           }
         } catch (e) {
           console.error(e);
@@ -399,6 +414,7 @@
         weight: document.getElementById('weight').value,
         gender: document.getElementById('gender').value,
         email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
         location: document.getElementById('location').value,
         completedAt: new Date().toISOString()
       };

@@ -325,6 +325,13 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <div class="label-row">
+        <label for="phone">Phone number</label>
+      </div>
+      <input type="tel" id="phone" placeholder="+91 98765 43210">
+    </div>
+
     <div class="form-row">
       <div class="form-group">
         <div class="label-row">
@@ -506,11 +513,12 @@
     function handleSignUp() {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirm-password').value;
       const terms = document.getElementById('terms').checked;
 
-      if (!name || !email || !password || !confirmPassword) {
+      if (!name || !email || !phone || !password || !confirmPassword) {
         alert('Please fill in all fields.');
         return;
       }
@@ -526,7 +534,7 @@
       }
 
       // Store user session (simulated)
-      const user = { email: email, name: name, given_name: name.split(' ')[0] };
+      const user = { email: email, name: name, given_name: name.split(' ')[0], phone: phone };
       sessionStorage.setItem('sandusula_user', JSON.stringify(user));
 
       // Check if there's a redirect URL stored

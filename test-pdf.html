@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Generation Test</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .test-btn {
+      background-color: #297C82;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .test-btn:hover {
+      background-color: #1F6166;
+    }
+    .info {
+      background-color: #f0f8ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>PDF Generation Test</h1>
+  
+  <div class="info">
+    <p>This test page simulates the patient data that would be collected during the screening process and tests the PDF generation functionality.</p>
+  </div>
+
+  <button class="test-btn" onclick="runPDFTest()">Test PDF Generation</button>
+
+  <div id="test-results"></div>
+
+  <script>
+    // Simulate the questions array from screening.html
+    const questions = [
+      {
+        tag: "NO RIGHT OR WRONG ANSWERS",
+        title: "Do you often have pain in a knee, hip, hand, or another joint?",
+        name: "pain_frequency",
+        options: [
+          { text: "Never", value: "never", weight: 0 },
+          { text: "Sometimes", value: "sometimes", weight: 1 },
+          { text: "Often", value: "often", weight: 2 },
+          { text: "Almost always", value: "almost_always", weight: 3 },
+          { text: "Other", value: "other", weight: 1 }
+        ]
+      },
+      {
+        tag: "MORNING COMFORT",
+        title: "Does morning joint stiffness usually last longer than 30 minutes after waking up?",
+        name: "morning_stiffness",
+        options: [
+          { text: "No, under 10 minutes", value: "under_10", weight: 0 },
+          { text: "10 to 30 minutes", value: "10_30", weight: 1 },
+          { text: "30 to 60 minutes", value: "30_60", weight: 2 },
+          { text: "More than an hour", value: "over_hour", weight: 3 },
+          { text: "I rarely have morning stiffness", value: "rarely", weight: 0 }
+        ]
+      }
+      // Add more questions as needed for testing
+    ];
+
+    function runPDFTest() {
+      // Simulate patient data
+      const onboardingData = {
+        fullName: "Test Patient",
+        age: 45,
+        weight: 70,
+        gender: "female",
+        email: "test@example.com",
+        phone: "+91 98765 43210",
+        location: "Bengaluru",
+        completedAt: new Date().toISOString()
+      };
+
+      const screeningAnswers = {
+        pain_frequency: "sometimes",
+        morning_stiffness: "10_30"
+      };
+
+      const resultsData = {
+        score: 2,
+        maxScore: 6,
+        ratio: 0.33,
+        badge: "Moderate Signal",
+        completedAt: new Date().toISOString()
+      };
+
+      const userData = {
+        name: "Test Patient",
+        email: "test@example.com",
+        phone: "+91 98765 43210"
+      };
+
+      // Create formatted date
+      const reportDate = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      // Determine risk level description
+      let riskDescription = '';
+      let riskColor = '';
+      if (resultsData.badge === 'Elevated Risk Signal') {
+        riskDescription = 'Patterns consistent with early osteoarthritis';
+        riskColor = '#C62828';
+      } else if (resultsData.badge === 'Moderate Signal') {
+        riskDescription = 'Notable discomfort patterns detected';
+        riskColor = '#E65100';
+      } else {
+        riskDescription = 'Your joints show healthy or mild signals';
+        riskColor = '#2E7D32';
+      }
+
+      // Create PDF content HTML
+      const pdfContent = `
+        <div style="font-family: 'Inter', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; color: #1C3332;">
+          <!-- Header -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #297C82;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 50px; height: 50px; background-color: #297C82; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">S</div>
+              <div>
+                <h1 style="margin: 0; font-size: 24px; color: #1C3332;">sandu-sula</h1>
+                <p style="margin: 0; font-size: 12px; color: #627271;">Joint Health Screening Report</p>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <p style="margin: 0; font-size: 12px; color: #627271;">Report Date: ${reportDate}</p>
+              <p style="margin: 0; font-size: 12px; color: #627271;">Report ID: SS-${Date.now().toString().slice(-8)}</p>
+            </div>
+          </div>
+
+          <!-- Patient Information Section -->
+          <div style="background-color: #F8F9FA; padding: 20px; border-radius: 12px; margin-bottom: 30px;">
+            <h2 style="margin: 0 0 15px 0; font-size: 18px; color: #297C82; border-bottom: 1px solid #E2E8E5; padding-bottom: 10px;">Patient Information</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+              <div>
+                <p style="margin: 5px 0; font-size: 13px; color: #627271;">Full Name</p>
+                <p style="margin: 0; font-size: 15px; font-weight: 500;">${onboardingData.fullName || userData.name || 'N/A'}</p>
+              </div>
+              <div>
+                <p style="margin: 5px 0; font-size: 13px; color: #627271;">Email</p>
+                <p style="margin: 0; font-size: 15px; font-weight: 500;">${onboardingData.email || userData.email || 'N/A'}</p>
+              </div>
+              <div>
+                <p style="margin: 5px 0; font-size: 13px; color: #627271;">Phone Number</p>
+                <p style="margin: 0; font-size: 15px; font-weight: 500;">${onboardingData.phone || userData.phone || 'N/A'}</p>
+              </div>
+              <div>
+                <p style="margin: 5px 0; font-size: 13px; color: #627271;">Location</p>
+                <p style="margin: 0; font-size: 15px; font-weight: 500;">${onboardingData.location || 'N/A'}</p>
+              </div>
+              <div>
+                <p style="margin: 5px 0; font-size: 13px; color: #627271;">Age</p>
+                <p style="margin: 0; font-size: 15px; font-weight: 500;">${onboardingData.age || 'N/A'} years</p>
+              </div>
+              <div>
+                <p style="margin: 5px 0; font-size: 13px; color: #627271;">Weight</p>
+                <p style="margin: 0; font-size: 15px; font-weight: 500;">${onboardingData.weight || 'N/A'} kg</p>
+              </div>
+              <div>
+                <p style="margin: 5px 0; font-size: 13px; color: #627271;">Gender</p>
+                <p style="margin: 0; font-size: 15px; font-weight: 500;">${onboardingData.gender || 'N/A'}</p>
+              </div>
+              <div>
+                <p style="margin: 5px 0; font-size: 13px; color: #627271;">Assessment Date</p>
+                <p style="margin: 0; font-size: 15px; font-weight: 500;">${new Date(onboardingData.completedAt || resultsData.completedAt).toLocaleDateString()}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screening Results Section -->
+          <div style="margin-bottom: 30px;">
+            <h2 style="margin: 0 0 15px 0; font-size: 18px; color: #297C82; border-bottom: 1px solid #E2E8E5; padding-bottom: 10px;">Screening Results</h2>
+            
+            <div style="background-color: ${riskColor}; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+              <p style="margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">${resultsData.badge || 'Risk Assessment'}</p>
+              <p style="margin: 5px 0 0 0; font-size: 16px; font-weight: 500;">${riskDescription}</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+              <div style="background-color: #F8F9FA; padding: 15px; border-radius: 8px;">
+                <p style="margin: 0 0 5px 0; font-size: 12px; color: #627271;">Joint Check-in Score</p>
+                <p style="margin: 0; font-size: 24px; font-weight: 600; color: #297C82;">${resultsData.score || 0} / ${resultsData.maxScore || 0}</p>
+              </div>
+              <div style="background-color: #F8F9FA; padding: 15px; border-radius: 8px;">
+                <p style="margin: 0 0 5px 0; font-size: 12px; color: #627271;">Risk Ratio</p>
+                <p style="margin: 0; font-size: 24px; font-weight: 600; color: #297C82;">${((resultsData.ratio || 0) * 100).toFixed(1)}%</p>
+              </div>
+            </div>
+
+            <div style="background-color: #F8F9FA; padding: 15px; border-radius: 8px;">
+              <p style="margin: 0 0 5px 0; font-size: 12px; color: #627271;">Assessment Type</p>
+              <p style="margin: 0; font-size: 15px; font-weight: 500;">14-Point Clinical Osteoarthritis Check</p>
+            </div>
+          </div>
+
+          <!-- Detailed Assessment Responses -->
+          <div style="margin-bottom: 30px;">
+            <h2 style="margin: 0 0 15px 0; font-size: 18px; color: #297C82; border-bottom: 1px solid #E2E8E5; padding-bottom: 10px;">Detailed Assessment Responses</h2>
+            <div style="background-color: #F8F9FA; padding: 20px; border-radius: 12px;">
+              ${questions.map((q, index) => {
+                const answerValue = screeningAnswers[q.name];
+                const answerText = q.options.find(o => o.value === answerValue)?.text || 'Not answered';
+                return `
+                  <div style="margin-bottom: 15px; ${index < questions.length - 1 ? 'padding-bottom: 15px; border-bottom: 1px solid #E2E8E5;' : ''}">
+                    <p style="margin: 0 0 5px 0; font-size: 13px; color: #627271;">Q${index + 1}: ${q.title}</p>
+                    <p style="margin: 0; font-size: 14px; font-weight: 500; color: #1C3332;">A: ${answerText}</p>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Recommendations Section -->
+          <div style="margin-bottom: 30px;">
+            <h2 style="margin: 0 0 15px 0; font-size: 18px; color: #297C82; border-bottom: 1px solid #E2E8E5; padding-bottom: 10px;">Recommendations</h2>
+            <div style="background-color: #E8F5E9; padding: 20px; border-radius: 12px; border-left: 4px solid #2E7D32;">
+              <p style="margin: 0; font-size: 14px; line-height: 1.6;">
+                ${resultsData.badge === 'Elevated Risk Signal' 
+                  ? 'Your answers reflect recurrent joint pain, morning stiffness, and mobility changes. We strongly recommend discussing these signals with a physician or joint specialist to help slow progression and safeguard your daily comfort.' 
+                  : resultsData.badge === 'Moderate Signal'
+                  ? 'Several of your answers suggest early joint tissue changes or load sensitivity. Targeted physical therapy, joint mobility routines, and ergonomic adjustments are often very effective at this stage.'
+                  : 'Your answers indicate predominantly occasional or mild joint discomfort. Maintaining low-impact movement, proper footwear, and joint-friendly nutrition can keep your mobility resilient.'}
+              </p>
+            </div>
+            <div style="margin-top: 15px; background-color: #F8F9FA; padding: 15px; border-radius: 8px;">
+              <p style="margin: 0; font-size: 13px; color: #627271;">Recommended Next Steps:</p>
+              <ul style="margin: 10px 0 0 20px; font-size: 14px; color: #1C3332;">
+                <li>Consult with a healthcare professional for proper evaluation</li>
+                <li>Explore joint care options near ${onboardingData.location || 'your area'}</li>
+                <li>Maintain regular low-impact physical activity</li>
+                <li>Monitor joint comfort patterns over time</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #297C82; text-align: center;">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 10px;">
+              <div style="width: 30px; height: 30px; background-color: #297C82; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;">S</div>
+              <span style="font-weight: 600; font-size: 16px; color: #1C3332;">sandu-sula</span>
+            </div>
+            <p style="margin: 5px 0; font-size: 12px; color: #627271;">A kinder way to begin understanding joint health</p>
+            <p style="margin: 5px 0; font-size: 12px; color: #297C82; font-weight: 500;">www.sandusula.com</p>
+            <p style="margin: 15px 0 5px 0; font-size: 11px; color: #9CA3AF; line-height: 1.4;">
+              Disclaimer: This report is generated by an educational risk-screening tool and is not a medical diagnosis. 
+              Always consult a qualified healthcare professional for proper evaluation and treatment.
+            </p>
+            <p style="margin: 5px 0; font-size: 11px; color: #9CA3AF;">
+              © ${new Date().getFullYear()} sandu-sula. All rights reserved.
+            </p>
+          </div>
+        </div>
+      `;
+
+      // PDF generation options
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: `sandusula-report-${onboardingData.fullName || 'patient'}-${Date.now()}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Generate and download PDF
+      try {
+        html2pdf().set(opt).from(pdfContent).save().then(() => {
+          document.getElementById('test-results').innerHTML = `
+            <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-top: 20px;">
+              <strong>✓ Success!</strong> PDF has been generated and downloaded successfully.
+              <br><br>
+              <small>Filename: ${opt.filename}</small>
+            </div>
+          `;
+        }).catch(err => {
+          document.getElementById('test-results').innerHTML = `
+            <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-top: 20px;">
+              <strong>✗ Error:</strong> ${err.message}
+            </div>
+          `;
+        });
+      } catch (error) {
+        document.getElementById('test-results').innerHTML = `
+          <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <strong>✗ Error:</strong> ${error.message}
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
