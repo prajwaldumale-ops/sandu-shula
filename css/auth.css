@@ -1,9 +1,32 @@
 /* Authentication Pages Styling */
 
-.auth-page {
+body.auth-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+body.auth-page .navbar {
+  padding: 8px 0;
+}
+
+body.auth-page .footer {
+  padding: 4px 0;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.65rem;
+}
+
+body.auth-page .footer .disclaimer {
+  margin-bottom: 4px;
+}
+
+body.auth-page .footer-logo {
+  margin-bottom: 4px;
+}
+
+body.auth-page .footer-logo-img {
+  height: 28px;
 }
 
 .auth-main {
@@ -11,29 +34,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 8px;
+  min-height: 100vh;
 }
 
 .auth-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 40px;
+  border-radius: 16px;
+  padding: 20px 28px;
   width: 100%;
-  max-width: 480px;
+  max-width: 500px;
   box-shadow: 0 12px 36px rgba(28, 51, 50, 0.05);
 }
 
 .auth-header {
-  margin-bottom: 28px;
+  margin-bottom: 12px;
 }
 
 .auth-brand-logo {
-  height: 56px;
-  max-width: 180px;
+  height: 36px;
+  max-width: 120px;
   object-fit: contain;
   mix-blend-mode: multiply;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   display: block;
 }
 
@@ -43,34 +67,41 @@
 }
 
 .auth-header .badge {
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 .auth-header h1 {
-  font-size: 2.2rem;
-  line-height: 1.15;
-  margin-bottom: 8px;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  margin-bottom: 4px;
 }
 
 .auth-subtitle {
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.8rem;
+  line-height: 1.2;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+}
+
+.auth-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .form-label {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-dark);
 }
@@ -105,12 +136,12 @@
 }
 
 .password-wrapper .form-input {
-  padding-right: 48px;
+  padding-right: 52px;
 }
 
 .password-toggle {
   position: absolute;
-  right: 14px;
+  right: 16px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -118,7 +149,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  padding: 6px;
   border-radius: 4px;
   transition: color 0.2s ease;
 }
@@ -131,17 +162,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.875rem;
-  margin-top: -4px;
+  font-size: 0.8rem;
+  margin-top: -2px;
 }
 
 .checkbox-label {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   color: var(--text-muted);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   user-select: none;
 }
 
@@ -168,7 +199,7 @@
   width: 100%;
   justify-content: center;
   border: none;
-  padding: 13px 24px;
+  padding: 14px 24px;
   font-size: 1rem;
 }
 
@@ -180,7 +211,7 @@
   font-size: 0.8rem;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  margin: 6px 0;
+  margin: 8px 0;
 }
 
 .auth-divider::before,
@@ -204,8 +235,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 11px 16px;
+  gap: 8px;
+  padding: 10px 16px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   background-color: #FFFFFF;
@@ -269,26 +300,26 @@
   text-align: center;
   font-size: 0.9rem;
   color: var(--text-muted);
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .auth-privacy-note {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-top: 24px;
+  gap: 6px;
+  margin-top: 16px;
   font-size: 0.8rem;
   color: var(--text-muted);
   text-align: center;
 }
 
 .alert-message {
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-size: 0.875rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
   display: none;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .alert-success {
@@ -298,10 +329,123 @@
 }
 
 @media (max-width: 540px) {
+  .auth-main {
+    padding: 6px;
+  }
   .auth-card {
-    padding: 28px 20px;
+    padding: 12px 10px;
+    max-width: 100%;
   }
   .social-grid {
     grid-template-columns: 1fr;
   }
+  .auth-header h1 {
+    font-size: 1.2rem;
+  }
+  .auth-brand-logo {
+    height: 28px;
+    max-width: 90px;
+  }
+  .auth-header {
+    margin-bottom: 6px;
+  }
+  .auth-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* Compact variants for signup page */
+.auth-card-compact {
+  padding: 16px 20px !important;
+  max-width: 520px !important;
+}
+
+.auth-header-compact {
+  margin-bottom: 10px !important;
+}
+
+.auth-header-compact .auth-brand-logo {
+  height: 32px !important;
+  max-width: 110px !important;
+  margin-bottom: 8px !important;
+}
+
+.auth-header-compact .badge {
+  margin-bottom: 6px !important;
+}
+
+.auth-header-compact h1 {
+  font-size: 1.3rem !important;
+  margin-bottom: 3px !important;
+}
+
+.auth-header-compact .auth-subtitle {
+  font-size: 0.75rem !important;
+  line-height: 1.2 !important;
+}
+
+.auth-form-compact {
+  gap: 8px !important;
+}
+
+.form-group-compact {
+  margin-top: -4px !important;
+}
+
+.checkbox-label-compact {
+  font-size: 0.75rem !important;
+  align-items: center !important;
+}
+
+.checkbox-label-compact input {
+  margin-top: 0 !important;
+}
+
+.btn-compact {
+  padding: 10px 20px !important;
+  font-size: 0.9rem !important;
+}
+
+.auth-divider-compact {
+  margin: 4px 0 !important;
+  font-size: 0.7rem !important;
+}
+
+.social-grid-compact {
+  gap: 8px !important;
+}
+
+.btn-social-compact {
+  padding: 6px 12px !important;
+  font-size: 0.8rem !important;
+  gap: 6px !important;
+}
+
+.btn-social-compact svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.auth-switch-compact {
+  font-size: 0.8rem !important;
+  margin-top: 6px !important;
+}
+
+.auth-privacy-note-compact {
+  margin-top: 10px !important;
+  font-size: 0.7rem !important;
+  gap: 4px !important;
+}
+
+.password-strength-compact {
+  margin-top: 2px !important;
+}
+
+.password-strength-compact .strength-bars {
+  height: 3px !important;
+}
+
+.password-strength-compact .strength-text {
+  font-size: 0.65rem !important;
 }

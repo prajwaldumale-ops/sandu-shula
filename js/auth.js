@@ -133,7 +133,14 @@ function handleAuthSuccess(user) {
     alertEl.innerHTML = `Welcome, <strong>${displayName}</strong>! Signed in with Google. Redirecting...`;
   }
   setTimeout(() => {
-    window.location.href = 'index.html';
+    // Check if there's a redirect URL stored
+    const redirectUrl = sessionStorage.getItem('sandusula_redirect_after_auth');
+    if (redirectUrl) {
+      sessionStorage.removeItem('sandusula_redirect_after_auth');
+      window.location.href = redirectUrl;
+    } else {
+      window.location.href = 'index.html';
+    }
   }, 1200);
 }
 

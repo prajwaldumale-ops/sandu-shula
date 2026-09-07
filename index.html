@@ -45,7 +45,7 @@
       </p>
 
       <div class="hero-cta">
-        <a href="onboarding.html" class="btn btn-primary btn-lg">Start screening &rarr;</a>
+        <a href="#" onclick="startScreening(event)" class="btn btn-primary btn-lg">Start screening &rarr;</a>
         <a href="#how-it-works" class="btn btn-secondary btn-lg">See how it works &or;</a>
       </div>
 
@@ -111,7 +111,7 @@
       </div>
 
       <div class="center-cta">
-        <a href="onboarding.html" class="btn btn-primary">Begin today</a>
+        <a href="#" onclick="startScreening(event)" class="btn btn-primary">Begin today</a>
       </div>
     </div>
   </section>
@@ -121,7 +121,7 @@
     <div class="container">
       <span class="section-badge">START WHERE YOU ARE</span>
       <h2 class="section-title">A little clarity can change the next conversation.</h2>
-      <a href="onboarding.html" class="btn btn-primary btn-lg">Start screening &rarr;</a>
+      <a href="#" onclick="startScreening(event)" class="btn btn-primary btn-lg">Start screening &rarr;</a>
     </div>
   </section>
 
@@ -142,5 +142,19 @@
 
   <!-- User Session & Navbar State -->
   <script src="js/auth.js"></script>
+  <script>
+    function startScreening(event) {
+      event.preventDefault();
+      const user = sessionStorage.getItem('sandusula_user');
+      if (user) {
+        // User is signed in, proceed to screening
+        window.location.href = 'onboarding.html';
+      } else {
+        // User not signed in, redirect to sign in
+        sessionStorage.setItem('sandusula_redirect_after_auth', 'onboarding.html');
+        window.location.href = 'signin.html';
+      }
+    }
+  </script>
 </body>
 </html>
