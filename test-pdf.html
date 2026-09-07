@@ -45,7 +45,7 @@
   <div id="test-results"></div>
 
   <script>
-    // Simulate the questions array from screening.html
+    // Simulate the questions array from screening.html with all 14 questions
     const questions = [
       {
         tag: "NO RIGHT OR WRONG ANSWERS",
@@ -70,8 +70,139 @@
           { text: "More than an hour", value: "over_hour", weight: 3 },
           { text: "I rarely have morning stiffness", value: "rarely", weight: 0 }
         ]
+      },
+      {
+        tag: "JOINT SENSATIONS",
+        title: "Do you hear or feel a cracking, grating, or clicking sound when you bend the joint?",
+        name: "crepitus",
+        options: [
+          { text: "Never", value: "never", weight: 0 },
+          { text: "Occasionally, without discomfort", value: "occasional_no_pain", weight: 1 },
+          { text: "Frequently, with mild aching", value: "frequent_mild", weight: 2 },
+          { text: "Almost every time I move", value: "constant", weight: 3 }
+        ]
+      },
+      {
+        tag: "DAILY MOVEMENT",
+        title: "Does joint discomfort increase after climbing stairs, walking, or standing for a while?",
+        name: "activity_pain",
+        options: [
+          { text: "Not at all", value: "none", weight: 0 },
+          { text: "Only after intense exercise", value: "intense_only", weight: 1 },
+          { text: "After moderate walking (15–20 mins)", value: "moderate", weight: 2 },
+          { text: "Even after a few steps or brief standing", value: "severe", weight: 3 }
+        ]
+      },
+      {
+        tag: "SWELLING & SENSITIVITY",
+        title: "Have you noticed visible swelling, puffiness, or warmth around any affected joint?",
+        name: "swelling",
+        options: [
+          { text: "Never noticed swelling", value: "never", weight: 0 },
+          { text: "Only after long, busy days", value: "rarely", weight: 1 },
+          { text: "Yes, periodically several times a month", value: "sometimes", weight: 2 },
+          { text: "Yes, persistent or frequent swelling", value: "frequent", weight: 3 }
+        ]
+      },
+      {
+        tag: "WARMTH & RELIEF",
+        title: "Does light walking or a warm shower tend to ease your joint stiffness?",
+        name: "movement_relief",
+        options: [
+          { text: "Yes, noticeably eases up", value: "yes_eases", weight: 2 },
+          { text: "A little bit", value: "a_little", weight: 1 },
+          { text: "No, movement often makes it hurt more", value: "makes_worse", weight: 3 },
+          { text: "Not sure", value: "unsure", weight: 1 }
+        ]
+      },
+      {
+        tag: "RANGE OF MOTION",
+        title: "Have you experienced reduced flexibility, like difficulty fully bending or straightening the joint?",
+        name: "flexibility",
+        options: [
+          { text: "Full flexibility, no restriction", value: "full", weight: 0 },
+          { text: "Slight tightness at the extremes", value: "slight", weight: 1 },
+          { text: "Noticeably limited movement", value: "moderate", weight: 2 },
+          { text: "Significantly locked or stiff", value: "severe", weight: 3 }
+        ]
+      },
+      {
+        tag: "WEATHER PATTERNS",
+        title: "Does cold, rainy, or humid weather make your joint aching feel more prominent?",
+        name: "weather_sensitivity",
+        options: [
+          { text: "No difference", value: "no", weight: 0 },
+          { text: "Mildly noticeable during seasonal shifts", value: "mild", weight: 1 },
+          { text: "Yes, weather changes definitely trigger ache", value: "yes", weight: 2 },
+          { text: "Unsure", value: "unsure", weight: 0 }
+        ]
+      },
+      {
+        tag: "JOINT HISTORY",
+        title: "Have you had a past injury, ligament sprain, or surgery on this joint?",
+        name: "past_injury",
+        options: [
+          { text: "No previous injuries", value: "no", weight: 0 },
+          { text: "Yes, minor sports sprain in the past", value: "minor", weight: 1 },
+          { text: "Yes, major injury or fracture years ago", value: "major", weight: 3 },
+          { text: "Yes, previous joint surgery", value: "surgery", weight: 3 }
+        ]
+      },
+      {
+        tag: "EVERYDAY MOBILITY",
+        title: "Do you have difficulty getting up from a low chair, deep sofa, or car seat?",
+        name: "chair_stand",
+        options: [
+          { text: "Easy without using arms", value: "easy", weight: 0 },
+          { text: "A little stiff, but manage fine", value: "mild", weight: 1 },
+          { text: "Need to push up firmly with both arms", value: "moderate", weight: 2 },
+          { text: "Very challenging or painful", value: "difficult", weight: 3 }
+        ]
+      },
+      {
+        tag: "REST & SLEEP",
+        title: "Does joint ache or discomfort disturb your sleep or wake you at night?",
+        name: "sleep_disturbance",
+        options: [
+          { text: "Never wakes me", value: "never", weight: 0 },
+          { text: "Occasionally if I sleep in an awkward position", value: "occasional", weight: 1 },
+          { text: "Yes, 1 to 2 nights a week", value: "weekly", weight: 2 },
+          { text: "Frequent sleep disruption most nights", value: "frequent", weight: 3 }
+        ]
+      },
+      {
+        tag: "ACTIVITY HESITATION",
+        title: "Do you find yourself avoiding hobbies, walking, or stairs due to joint concern?",
+        name: "activity_avoidance",
+        options: [
+          { text: "No, doing all regular activities", value: "no", weight: 0 },
+          { text: "A little more cautious than before", value: "cautious", weight: 1 },
+          { text: "Yes, cut back on walking and stairs", value: "moderate", weight: 2 },
+          { text: "Significantly limited daily life", value: "severe", weight: 3 }
+        ]
+      },
+      {
+        tag: "FAMILY BACKGROUND",
+        title: "Have any close family members (parents, siblings) been diagnosed with joint wear or OA?",
+        name: "family_history",
+        options: [
+          { text: "No known history", value: "no", weight: 0 },
+          { text: "One immediate family member", value: "one", weight: 2 },
+          { text: "Multiple family members", value: "multiple", weight: 3 },
+          { text: "Unsure / Adopted", value: "unsure", weight: 1 }
+        ]
+      },
+      {
+        tag: "JOINT CONTOUR",
+        title: "Have you noticed any visible enlargement, knobby nodes, or changes in joint shape?",
+        name: "joint_shape",
+        options: [
+          { text: "No visible changes", value: "no", weight: 0 },
+          { text: "Slight bony fullness", value: "slight", weight: 1 },
+          { text: "Clear knobby changes (e.g. Heberden nodes or knee curvature)", value: "yes", weight: 3 },
+          { text: "Unsure", value: "unsure", weight: 0 }
+        ]
       }
-      // Add more questions as needed for testing
     ];
 
     function runPDFTest() {
@@ -87,9 +218,33 @@
         completedAt: new Date().toISOString()
       };
 
-      const screeningAnswers = {
-        pain_frequency: "sometimes",
-        morning_stiffness: "10_30"
+      // Generate random answers for all 14 questions
+      const screeningAnswers = {};
+      let totalWeight = 0;
+      let maxPossible = 0;
+
+      questions.forEach(q => {
+        const randomOption = q.options[Math.floor(Math.random() * q.options.length)];
+        screeningAnswers[q.name] = randomOption.value;
+        totalWeight += randomOption.weight;
+        maxPossible += Math.max(...q.options.map(o => o.weight));
+      });
+
+      // Calculate results based on random answers
+      const ratio = totalWeight / maxPossible;
+      let badge = 'Mild / Low Risk Signal';
+      if (ratio >= 0.55) {
+        badge = 'Elevated Risk Signal';
+      } else if (ratio >= 0.3) {
+        badge = 'Moderate Signal';
+      }
+
+      const resultsData = {
+        score: totalWeight,
+        maxScore: maxPossible,
+        ratio: ratio.toFixed(2),
+        badge: badge,
+        completedAt: new Date().toISOString()
       };
 
       const resultsData = {
@@ -112,6 +267,9 @@
         month: 'long',
         day: 'numeric'
       });
+
+      // Generate unique report ID
+      const reportId = 'SS-' + Date.now().toString().slice(-8) + '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
 
       // Determine risk level description
       let riskDescription = '';
@@ -137,7 +295,7 @@
         <html lang="en">
         <head>
           <meta charset="UTF-8">
-          <title>sandu-sula Joint Health Screening Report</title>
+          <title>sandu-sula Joint Health Screening Report - ${reportId}</title>
           <style>
             /* Page & Print Setup */
             @page {
@@ -146,20 +304,21 @@
               @top-center {
                 content: "sandu-sula · Joint Health Screening Report";
                 font-family: system-ui, sans-serif;
-                font-size: 8pt;
-                color: #6b7280;
-                border-bottom: 1px solid #e5e7eb;
+                font-size: 9pt;
+                color: #0d5c56;
+                font-weight: 600;
+                border-bottom: 2px solid #0d5c56;
                 width: 100%;
-                padding-bottom: 5px;
+                padding-bottom: 8px;
               }
               @bottom-center {
-                content: "Page " counter(page) " of " counter(pages) " — Digitally generated report. Not a formal medical diagnosis.";
+                content: "Report ID: " attr(data-report-id) " | Page " counter(page) " of " counter(pages) " | www.sandusula.com | Digitally generated - Not a medical diagnosis";
                 font-family: system-ui, sans-serif;
                 font-size: 8pt;
-                color: #9ca3af;
+                color: #6b7280;
                 border-top: 1px solid #e5e7eb;
                 width: 100%;
-                padding-top: 5px;
+                padding-top: 8px;
               }
             }
 
@@ -204,22 +363,33 @@
             .brand-logo {
               display: flex;
               align-items: center;
-              gap: 8px;
+              gap: 12px;
               font-weight: 700;
-              font-size: 14pt;
+              font-size: 16pt;
               color: #0d5c56;
             }
 
             .brand-logo img {
-              width: 40px;
-              height: 40px;
+              width: 50px;
+              height: 50px;
               object-fit: contain;
+              border-radius: 8px;
             }
 
             .report-meta {
               text-align: right;
-              font-size: 8.5pt;
+              font-size: 9pt;
               color: #4b5563;
+            }
+
+            .report-meta .report-id {
+              font-weight: 700;
+              color: #0d5c56;
+              font-size: 10pt;
+            }
+
+            .report-meta .report-date {
+              color: #6b7280;
             }
 
             /* Grid layout for patient details */
@@ -410,11 +580,25 @@
               page-break-inside: avoid;
             }
 
+            .footer-branding .logo-section {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 10px;
+              margin-bottom: 8px;
+            }
+
+            .footer-branding .logo-section img {
+              width: 35px;
+              height: 35px;
+              object-fit: contain;
+              border-radius: 6px;
+            }
+
             .footer-branding .logo-text {
               font-weight: 600;
               font-size: 12pt;
               color: #0d5c56;
-              margin-bottom: 4px;
             }
 
             .footer-branding .tagline {
@@ -424,9 +608,19 @@
             }
 
             .footer-branding .website {
-              font-size: 8pt;
+              font-size: 9pt;
               color: #0d5c56;
-              font-weight: 500;
+              font-weight: 600;
+              text-decoration: none;
+            }
+
+            .footer-branding .report-authentication {
+              font-size: 8pt;
+              color: #6b7280;
+              margin-top: 8px;
+              padding: 8px;
+              background-color: #f9fafb;
+              border-radius: 4px;
             }
 
             .footer-branding .copyright {
@@ -436,7 +630,7 @@
             }
           </style>
         </head>
-        <body>
+        <body data-report-id="${reportId}">
 
           <div class="report-container">
             
@@ -447,8 +641,8 @@
                 <span>sandu-sula</span>
               </div>
               <div class="report-meta">
-                <strong>Report Date:</strong> ${reportDate}<br>
-                <strong>Report ID:</strong> SS-${Date.now().toString().slice(-8)}
+                <div class="report-id">Report ID: ${reportId}</div>
+                <div class="report-date"><strong>Report Date:</strong> ${reportDate}</div>
               </div>
             </div>
 
@@ -534,9 +728,15 @@
 
             <!-- Footer Branding -->
             <div class="footer-branding">
-              <div class="logo-text">sandu-sula</div>
+              <div class="logo-section">
+                <img src="images/logo.jpeg" alt="sandu-sula logo" onerror="this.style.display='none'; this.parentNode.innerHTML='🌿';" />
+                <div class="logo-text">sandu-sula</div>
+              </div>
               <div class="tagline">A kinder way to begin understanding joint health</div>
-              <div class="website">www.sandusula.com</div>
+              <a href="https://www.sandusula.com" class="website">www.sandusula.com</a>
+              <div class="report-authentication">
+                <strong>Authenticated Report:</strong> This document is uniquely identified by Report ID <strong>${reportId}</strong> and generated on ${reportDate}. Verify authenticity at www.sandusula.com
+              </div>
               <div class="copyright">© ${new Date().getFullYear()} sandu-sula. All rights reserved.</div>
             </div>
 
@@ -549,7 +749,7 @@
       // PDF generation options with proper page handling
       const opt = {
         margin: [20, 15, 20, 15], // Top, Right, Bottom, Left in mm
-        filename: `sandusula-report-${onboardingData.fullName || 'patient'}-${Date.now()}.pdf`,
+        filename: `sandusula-report-${reportId}-${onboardingData.fullName || 'patient'}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
           scale: 2, 
@@ -576,7 +776,15 @@
             <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-top: 20px;">
               <strong>✓ Success!</strong> PDF has been generated and downloaded successfully.
               <br><br>
-              <small>Filename: ${opt.filename}</small>
+              <div style="font-size: 13px; margin-top: 10px;">
+                <strong>Report Details:</strong><br>
+                • Report ID: ${reportId}<br>
+                • Report Date: ${reportDate}<br>
+                • Patient: ${onboardingData.fullName}<br>
+                • Risk Level: ${resultsData.badge} (${(resultsData.ratio * 100).toFixed(1)}%)<br>
+                • Score: ${resultsData.score}/${resultsData.maxScore}<br>
+                • Filename: ${opt.filename}
+              </div>
             </div>
           `;
         }).catch(err => {
