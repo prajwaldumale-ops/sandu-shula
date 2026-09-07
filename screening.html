@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sandu-sula - Screening</title>
+  <link rel="icon" type="image/jpeg" href="images/logo.jpeg" />
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #FAF6EF;
+      --card-bg: #FFFFFF;
+      --text-dark: #1C3332;
+      --text-muted: #627271;
+      --primary: #85B0A8;
+      --primary-hover: #729B93;
+      --border-color: #E2E8E5;
+      --border-active: #85B0A8;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 24px 0 12px;
+    }
+
+    .nav-container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .brand-logo-img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      border-radius: 6px;
+      mix-blend-mode: multiply;
+    }
+
+    .step-indicator {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Progress bar */
+    .progress-track {
+      max-width: 640px;
+      margin: 8px auto 0;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .progress-bar-bg {
+      height: 4px;
+      background-color: var(--border-color);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--primary);
+      width: 7.14%; /* 1 of 14 */
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    /* Main Container */
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 20px 0 60px;
+    }
+
+    .question-container {
+      max-width: 640px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .section-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .question-title {
+      font-family: var(--font-serif);
+      font-size: 2.75rem;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 32px;
+      color: var(--text-dark);
+    }
+
+    /* Radio Group Options */
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .option-card {
+      position: relative;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .option-card:hover {
+      border-color: var(--border-active);
+    }
+
+    .option-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .option-text {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-dark);
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .radio-circle::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background-color: var(--primary);
+      border-radius: 50%;
+      display: none;
+    }
+
+    /* Selected state styling */
+    .option-card input[type="radio"]:checked ~ .radio-circle {
+      border-color: var(--primary);
+    }
+
+    .option-card input[type="radio"]:checked ~ .radio-circle::after {
+      display: block;
+    }
+
+    .option-card:has(input[type="radio"]:checked) {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    /* Navigation Actions Footer */
+    .nav-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-back {
+      background: transparent;
+      border: none;
+      color: var(--text-dark);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 4px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-back:hover {
+      opacity: 0.7;
+    }
+
+    .btn-next {
+      background-color: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 24px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-next:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .validation-hint {
+      color: #C62828;
+      font-size: 0.85rem;
+      margin-top: -24px;
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    /* Result summary card */
+    .result-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 36px;
+      margin-top: 10px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .badge-mild {
+      background-color: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .badge-moderate {
+      background-color: #FFF3E0;
+      color: #E65100;
+    }
+
+    .badge-elevated {
+      background-color: #FFEBEE;
+      color: #C62828;
+    }
+
+    .result-card h2 {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      color: var(--text-dark);
+    }
+
+    .result-card p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .result-breakdown {
+      border-top: 1px solid var(--border-color);
+      padding-top: 20px;
+      margin-bottom: 28px;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .breakdown-label {
+      color: var(--text-muted);
+    }
+
+    .breakdown-val {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    @media (max-width: 580px) {
+      .question-title {
+        font-size: 2.1rem;
+      }
+      .result-card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="images/logo.jpeg" alt="sandu-sula logo" class="brand-logo-img" />
+        <span class="brand-name">sandu-sula</span>
+      </a>
+      <span class="step-indicator" id="step-indicator">Question 1 of 14</span>
+    </div>
+
+    <div class="progress-track" id="progress-track">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Screening Question Content -->
+  <main class="main-content">
+    <div class="question-container" id="question-card">
+      <span class="section-tag" id="section-tag">NO RIGHT OR WRONG ANSWERS</span>
+      <h1 class="question-title" id="question-title">Do you often have pain in a knee, hip, hand, or another joint?</h1>
+
+      <form id="screening-form" onsubmit="handleNext(event)">
+        <div class="options-group" id="options-group">
+          <!-- Dynamic options rendered via JavaScript -->
+        </div>
+
+        <p class="validation-hint" id="validation-hint">Please choose an option to continue.</p>
+
+        <!-- Controls -->
+        <div class="nav-actions">
+          <button type="button" class="btn-back" id="btn-back" onclick="handleBack()">&larr; Back</button>
+          <button type="submit" class="btn-next" id="btn-next">Next &rarr;</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    // 14 Osteoarthritis Screening Questions
+    const questions = [
+      {
+        tag: "NO RIGHT OR WRONG ANSWERS",
+        title: "Do you often have pain in a knee, hip, hand, or another joint?",
+        name: "pain_frequency",
+        options: [
+          { text: "Never", value: "never", weight: 0 },
+          { text: "Sometimes", value: "sometimes", weight: 1 },
+          { text: "Often", value: "often", weight: 2 },
+          { text: "Almost always", value: "almost_always", weight: 3 },
+          { text: "Other", value: "other", weight: 1 }
+        ]
+      },
+      {
+        tag: "MORNING COMFORT",
+        title: "Does morning joint stiffness usually last longer than 30 minutes after waking up?",
+        name: "morning_stiffness",
+        options: [
+          { text: "No, under 10 minutes", value: "under_10", weight: 0 },
+          { text: "10 to 30 minutes", value: "10_30", weight: 1 },
+          { text: "30 to 60 minutes", value: "30_60", weight: 2 },
+          { text: "More than an hour", value: "over_hour", weight: 3 },
+          { text: "I rarely have morning stiffness", value: "rarely", weight: 0 }
+        ]
+      },
+      {
+        tag: "JOINT SENSATIONS",
+        title: "Do you hear or feel a cracking, grating, or clicking sound when you bend the joint?",
+        name: "crepitus",
+        options: [
+          { text: "Never", value: "never", weight: 0 },
+          { text: "Occasionally, without discomfort", value: "occasional_no_pain", weight: 1 },
+          { text: "Frequently, with mild aching", value: "frequent_mild", weight: 2 },
+          { text: "Almost every time I move", value: "constant", weight: 3 }
+        ]
+      },
+      {
+        tag: "DAILY MOVEMENT",
+        title: "Does joint discomfort increase after climbing stairs, walking, or standing for a while?",
+        name: "activity_pain",
+        options: [
+          { text: "Not at all", value: "none", weight: 0 },
+          { text: "Only after intense exercise", value: "intense_only", weight: 1 },
+          { text: "After moderate walking (15–20 mins)", value: "moderate", weight: 2 },
+          { text: "Even after a few steps or brief standing", value: "severe", weight: 3 }
+        ]
+      },
+      {
+        tag: "SWELLING & SENSITIVITY",
+        title: "Have you noticed visible swelling, puffiness, or warmth around any affected joint?",
+        name: "swelling",
+        options: [
+          { text: "Never noticed swelling", value: "never", weight: 0 },
+          { text: "Only after long, busy days", value: "rarely", weight: 1 },
+          { text: "Yes, periodically several times a month", value: "sometimes", weight: 2 },
+          { text: "Yes, persistent or frequent swelling", value: "frequent", weight: 3 }
+        ]
+      },
+      {
+        tag: "WARMTH & RELIEF",
+        title: "Does light walking or a warm shower tend to ease your joint stiffness?",
+        name: "movement_relief",
+        options: [
+          { text: "Yes, noticeably eases up", value: "yes_eases", weight: 2 },
+          { text: "A little bit", value: "a_little", weight: 1 },
+          { text: "No, movement often makes it hurt more", value: "makes_worse", weight: 3 },
+          { text: "Not sure", value: "unsure", weight: 1 }
+        ]
+      },
+      {
+        tag: "RANGE OF MOTION",
+        title: "Have you experienced reduced flexibility, like difficulty fully bending or straightening the joint?",
+        name: "flexibility",
+        options: [
+          { text: "Full flexibility, no restriction", value: "full", weight: 0 },
+          { text: "Slight tightness at the extremes", value: "slight", weight: 1 },
+          { text: "Noticeably limited movement", value: "moderate", weight: 2 },
+          { text: "Significantly locked or stiff", value: "severe", weight: 3 }
+        ]
+      },
+      {
+        tag: "WEATHER PATTERNS",
+        title: "Does cold, rainy, or humid weather make your joint aching feel more prominent?",
+        name: "weather_sensitivity",
+        options: [
+          { text: "No difference", value: "no", weight: 0 },
+          { text: "Mildly noticeable during seasonal shifts", value: "mild", weight: 1 },
+          { text: "Yes, weather changes definitely trigger ache", value: "yes", weight: 2 },
+          { text: "Unsure", value: "unsure", weight: 0 }
+        ]
+      },
+      {
+        tag: "JOINT HISTORY",
+        title: "Have you had a past injury, ligament sprain, or surgery on this joint?",
+        name: "past_injury",
+        options: [
+          { text: "No previous injuries", value: "no", weight: 0 },
+          { text: "Yes, minor sports sprain in the past", value: "minor", weight: 1 },
+          { text: "Yes, major injury or fracture years ago", value: "major", weight: 3 },
+          { text: "Yes, previous joint surgery", value: "surgery", weight: 3 }
+        ]
+      },
+      {
+        tag: "EVERYDAY MOBILITY",
+        title: "Do you have difficulty getting up from a low chair, deep sofa, or car seat?",
+        name: "chair_stand",
+        options: [
+          { text: "Easy without using arms", value: "easy", weight: 0 },
+          { text: "A little stiff, but manage fine", value: "mild", weight: 1 },
+          { text: "Need to push up firmly with both arms", value: "moderate", weight: 2 },
+          { text: "Very challenging or painful", value: "difficult", weight: 3 }
+        ]
+      },
+      {
+        tag: "REST & SLEEP",
+        title: "Does joint ache or discomfort disturb your sleep or wake you at night?",
+        name: "sleep_disturbance",
+        options: [
+          { text: "Never wakes me", value: "never", weight: 0 },
+          { text: "Occasionally if I sleep in an awkward position", value: "occasional", weight: 1 },
+          { text: "Yes, 1 to 2 nights a week", value: "weekly", weight: 2 },
+          { text: "Frequent sleep disruption most nights", value: "frequent", weight: 3 }
+        ]
+      },
+      {
+        tag: "ACTIVITY HESITATION",
+        title: "Do you find yourself avoiding hobbies, walking, or stairs due to joint concern?",
+        name: "activity_avoidance",
+        options: [
+          { text: "No, doing all regular activities", value: "no", weight: 0 },
+          { text: "A little more cautious than before", value: "cautious", weight: 1 },
+          { text: "Yes, cut back on walking and stairs", value: "moderate", weight: 2 },
+          { text: "Significantly limited daily life", value: "severe", weight: 3 }
+        ]
+      },
+      {
+        tag: "FAMILY BACKGROUND",
+        title: "Have any close family members (parents, siblings) been diagnosed with joint wear or OA?",
+        name: "family_history",
+        options: [
+          { text: "No known history", value: "no", weight: 0 },
+          { text: "One immediate family member", value: "one", weight: 2 },
+          { text: "Multiple family members", value: "multiple", weight: 3 },
+          { text: "Unsure / Adopted", value: "unsure", weight: 1 }
+        ]
+      },
+      {
+        tag: "JOINT CONTOUR",
+        title: "Have you noticed any visible enlargement, knobby nodes, or changes in joint shape?",
+        name: "joint_shape",
+        options: [
+          { text: "No visible changes", value: "no", weight: 0 },
+          { text: "Slight bony fullness", value: "slight", weight: 1 },
+          { text: "Clear knobby changes (e.g. Heberden nodes or knee curvature)", value: "yes", weight: 3 },
+          { text: "Unsure", value: "unsure", weight: 0 }
+        ]
+      }
+    ];
+
+    let currentIndex = 0;
+    const answers = {};
+
+    function renderQuestion(index) {
+      const q = questions[index];
+      const stepIndicator = document.getElementById('step-indicator');
+      const sectionTag = document.getElementById('section-tag');
+      const questionTitle = document.getElementById('question-title');
+      const optionsGroup = document.getElementById('options-group');
+      const progressFill = document.getElementById('progress-fill');
+      const validationHint = document.getElementById('validation-hint');
+      const btnNext = document.getElementById('btn-next');
+
+      validationHint.style.display = 'none';
+
+      // Update Header & Progress
+      stepIndicator.textContent = `Question ${index + 1} of ${questions.length}`;
+      sectionTag.textContent = q.tag;
+      questionTitle.textContent = q.title;
+
+      const progressPercent = ((index + 1) / questions.length) * 100;
+      progressFill.style.width = `${progressPercent}%`;
+
+      btnNext.innerHTML = (index === questions.length - 1) ? 'See results &rarr;' : 'Next &rarr;';
+
+      // Render Options
+      optionsGroup.innerHTML = '';
+      q.options.forEach((opt) => {
+        const isChecked = answers[q.name] === opt.value;
+        const label = document.createElement('label');
+        label.className = 'option-card';
+        label.innerHTML = `
+          <span class="option-text">${opt.text}</span>
+          <input type="radio" name="${q.name}" value="${opt.value}" ${isChecked ? 'checked' : ''} onchange="selectOption('${q.name}', '${opt.value}', ${opt.weight})" />
+          <span class="radio-circle"></span>
+        `;
+        optionsGroup.appendChild(label);
+      });
+    }
+
+    function selectOption(name, value, weight) {
+      answers[name] = value;
+      answers[name + '_weight'] = weight;
+      document.getElementById('validation-hint').style.display = 'none';
+    }
+
+    function handleNext(event) {
+      if (event) event.preventDefault();
+      const currentQ = questions[currentIndex];
+      const selected = document.querySelector(`input[name="${currentQ.name}"]:checked`);
+
+      if (!selected) {
+        document.getElementById('validation-hint').style.display = 'block';
+        return;
+      }
+
+      // Save answer
+      const opt = currentQ.options.find(o => o.value === selected.value);
+      answers[currentQ.name] = selected.value;
+      answers[currentQ.name + '_weight'] = opt ? opt.weight : 1;
+
+      // Save to session
+      sessionStorage.setItem('sandusula_screening_answers', JSON.stringify(answers));
+
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion(currentIndex);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResults();
+      }
+    }
+
+    function handleBack() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion(currentIndex);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Return to onboarding
+        window.location.href = 'onboarding.html';
+      }
+    }
+
+    function showResults() {
+      // Calculate risk score
+      let totalWeight = 0;
+      let maxPossible = 0;
+
+      questions.forEach(q => {
+        const maxOpt = Math.max(...q.options.map(o => o.weight));
+        maxPossible += maxOpt;
+        const w = answers[q.name + '_weight'] || 0;
+        totalWeight += w;
+      });
+
+      const ratio = totalWeight / maxPossible;
+      let badgeClass = 'badge-mild';
+      let badgeText = 'Mild / Low Risk Signal';
+      let title = 'Your joints show healthy or mild signals.';
+      let desc = 'Your answers indicate predominantly occasional or mild joint discomfort. Maintaining low-impact movement, proper footwear, and joint-friendly nutrition can keep your mobility resilient.';
+
+      if (ratio >= 0.55) {
+        badgeClass = 'badge-elevated';
+        badgeText = 'Elevated Risk Signal';
+        title = 'Patterns consistent with early osteoarthritis.';
+        desc = 'Your answers reflect recurrent joint pain, morning stiffness, and mobility changes. Discussing these signals with a physician or joint specialist can help slow progression and safeguard your daily comfort.';
+      } else if (ratio >= 0.3) {
+        badgeClass = 'badge-moderate';
+        badgeText = 'Moderate Signal';
+        title = 'Notable discomfort patterns detected.';
+        desc = 'Several of your answers suggest early joint tissue changes or load sensitivity. Targeted physical therapy, joint mobility routines, and ergonomic adjustments are often very effective at this stage.';
+      }
+
+      // Read onboarding data if available
+      let userName = 'Friend';
+      let userLocation = 'your city';
+      const storedOnboarding = sessionStorage.getItem('sandusula_onboarding');
+      if (storedOnboarding) {
+        try {
+          const ob = JSON.parse(storedOnboarding);
+          if (ob.fullName) userName = ob.fullName.split(' ')[0];
+          if (ob.location) userLocation = ob.location;
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // Save finalized results
+      const resultsData = {
+        score: totalWeight,
+        maxScore: maxPossible,
+        ratio: ratio.toFixed(2),
+        badge: badgeText,
+        completedAt: new Date().toISOString()
+      };
+      sessionStorage.setItem('sandusula_results', JSON.stringify(resultsData));
+
+      // Render Results Screen
+      document.getElementById('step-indicator').textContent = 'Completed';
+      document.getElementById('progress-fill').style.width = '100%';
+
+      const card = document.getElementById('question-card');
+      card.innerHTML = `
+        <span class="section-tag">SCREENING COMPLETED</span>
+        <div class="result-card">
+          <span class="result-badge ${badgeClass}">${badgeText}</span>
+          <h2>${userName}, ${title.toLowerCase()}</h2>
+          <p>${desc}</p>
+
+          <div class="result-breakdown">
+            <div class="breakdown-row">
+              <span class="breakdown-label">Joint check-in score:</span>
+              <span class="breakdown-val">${totalWeight} / ${maxPossible}</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Care location:</span>
+              <span class="breakdown-val">${userLocation}</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Assessment type:</span>
+              <span class="breakdown-val">14-Point Clinical OA Check</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="index.html#care" class="btn-next" style="text-decoration: none; text-align: center; padding: 12px 24px;">
+              Explore care near ${userLocation} &rarr;
+            </a>
+            <a href="index.html" class="btn-back" style="text-decoration: none; padding: 12px 16px;">
+              &larr; Return to home
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Restore previous answers if revisiting
+      const saved = sessionStorage.getItem('sandusula_screening_answers');
+      if (saved) {
+        try {
+          Object.assign(answers, JSON.parse(saved));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      renderQuestion(currentIndex);
+    });
+  </script>
+
+</body>
+</html>

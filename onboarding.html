@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sandu-sula - Onboarding</title>
+  <link rel="icon" type="image/jpeg" href="images/logo.jpeg" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* CSS Variables matching the site palette */
+    :root {
+      --bg-main: #FAF6EF;
+      --bg-input: #FAF6EF; /* Slightly lighter inner tint or matching background */
+      --text-dark: #1C3332;
+      --text-muted: #627271;
+      --text-placeholder: #92A09E;
+      --primary: #297C82;
+      --primary-hover: #1F6166;
+      --border-color: #D3DDD9;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 24px 0 12px;
+    }
+
+    .nav-container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .brand-logo-img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      border-radius: 8px;
+      mix-blend-mode: multiply;
+    }
+
+    .logo-icon {
+      background-color: var(--primary);
+      color: #FFFFFF;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 1rem;
+    }
+
+    /* Main Container */
+    .main-content {
+      flex: 1;
+      display: flex;
+      padding: 20px 0 60px;
+    }
+
+    .form-container {
+      max-width: 640px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .page-title {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: var(--text-dark);
+    }
+
+    .page-description {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      line-height: 1.5;
+    }
+
+    /* Form & Input Layout */
+    .onboarding-form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 18px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .input-suffix {
+      position: absolute;
+      right: 20px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select {
+      width: 100%;
+      height: 52px;
+      padding: 0 20px;
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 26px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    .has-icon input {
+      padding-left: 46px;
+    }
+
+    .has-suffix input {
+      padding-right: 48px;
+    }
+
+    input::placeholder {
+      color: var(--text-placeholder);
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(41, 124, 130, 0.12);
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      margin-top: 12px;
+      width: 100%;
+      height: 52px;
+      background-color: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 26px;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .alert-success {
+      background-color: #E8F5E9;
+      border: 1px solid #C8E6C9;
+      color: #2E7D32;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 0.95rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 580px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .page-title {
+        font-size: 2.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <img src="images/logo.jpeg" alt="sandu-sula logo" class="brand-logo-img" />
+        <span class="brand-name">sandu-sula</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Onboarding Content -->
+  <main class="main-content">
+    <div class="form-container">
+      <span class="section-tag">FIRST, A LITTLE ABOUT YOU</span>
+      <h1 class="page-title">Let’s make this personal.</h1>
+      <p class="page-description">
+        These details help make your screening and nearby care suggestions more useful. You can keep answers approximate.
+      </p>
+
+      <div id="onboarding-success" class="alert-success">
+        Details saved! Starting your joint check-in...
+      </div>
+
+      <form class="onboarding-form" onsubmit="handleOnboardingSubmit(event)">
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" name="fullName" placeholder="How should we call you?" required />
+        </div>
+
+        <!-- Age & Weight Row -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" placeholder="Years" min="1" max="120" required />
+          </div>
+          <div class="form-group">
+            <label for="weight">Weight</label>
+            <div class="input-wrapper has-suffix">
+              <input type="number" id="weight" name="weight" placeholder="Your weight" min="1" required />
+              <span class="input-suffix">kg</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" required>
+            <option value="" disabled selected>Select gender</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="non_binary">Non-binary / Other</option>
+            <option value="prefer_not_to_say">Prefer not to say</option>
+          </select>
+        </div>
+
+        <!-- City or Location -->
+        <div class="form-group">
+          <label for="location">City or location</label>
+          <div class="input-wrapper has-icon">
+            <span class="input-icon">
+              <!-- Target Location Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="3"></circle>
+                <line x1="12" y1="2" x2="12" y2="4"></line>
+                <line x1="12" y1="20" x2="12" y2="22"></line>
+                <line x1="2" y1="12" x2="4" y2="12"></line>
+                <line x1="20" y1="12" x2="22" y2="12"></line>
+              </svg>
+            </span>
+            <input type="text" id="location" name="location" placeholder="For example, Bengaluru" required />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="btn-submit-onboarding" class="btn-submit">
+          Continue to screening &rarr;
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    // Autofill name and email if logged in via Google/Session
+    window.addEventListener('DOMContentLoaded', () => {
+      const stored = sessionStorage.getItem('sandusula_user');
+      if (stored) {
+        try {
+          const user = JSON.parse(stored);
+          if (user.name && !document.getElementById('fullName').value) {
+            document.getElementById('fullName').value = user.name;
+          }
+          if (user.email && !document.getElementById('email').value) {
+            document.getElementById('email').value = user.email;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    });
+
+    function handleOnboardingSubmit(event) {
+      event.preventDefault();
+      const onboardingData = {
+        fullName: document.getElementById('fullName').value,
+        age: document.getElementById('age').value,
+        weight: document.getElementById('weight').value,
+        gender: document.getElementById('gender').value,
+        email: document.getElementById('email').value,
+        location: document.getElementById('location').value,
+        completedAt: new Date().toISOString()
+      };
+
+      // Store in session storage
+      sessionStorage.setItem('sandusula_onboarding', JSON.stringify(onboardingData));
+
+      const successEl = document.getElementById('onboarding-success');
+      const submitBtn = document.getElementById('btn-submit-onboarding');
+      successEl.style.display = 'block';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Saving details...';
+
+      setTimeout(() => {
+        submitBtn.textContent = 'Proceeding to screening...';
+        setTimeout(() => {
+          window.location.href = 'screening.html';
+        }, 800);
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>

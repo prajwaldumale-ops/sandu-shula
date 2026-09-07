@@ -1,0 +1,10 @@
+# Google OAuth client secrets (Do not commit to public repositories)
+client_secret*.json
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# PowerShell & Local Logs
+*.log
