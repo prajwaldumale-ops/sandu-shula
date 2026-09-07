@@ -205,7 +205,7 @@
       }
     ];
 
-    function runPDFTest() {
+    async function runPDFTest() {
       // Simulate patient data
       const onboardingData = {
         fullName: "Test Patient",
@@ -293,18 +293,22 @@
             @page {
               size: A4;
               margin: 20mm 15mm 20mm 15mm;
-              @top-center {
-                content: "sandu-sula · Joint Health Screening Report";
+              @top-left {
+                content: "sandu-sula";
                 font-family: system-ui, sans-serif;
-                font-size: 9pt;
+                font-size: 10pt;
                 color: #0d5c56;
-                font-weight: 600;
-                border-bottom: 2px solid #0d5c56;
-                width: 100%;
-                padding-bottom: 8px;
+                font-weight: 700;
+              }
+              @top-right {
+                content: "Report ID: " attr(data-report-id) " | " attr(data-report-date);
+                font-family: system-ui, sans-serif;
+                font-size: 8pt;
+                color: #4b5563;
+                text-align: right;
               }
               @bottom-center {
-                content: "Report ID: " attr(data-report-id) " | Page " counter(page) " of " counter(pages) " | www.sandusula.com | Digitally generated - Not a medical diagnosis";
+                content: "www.sandusula.com | Page " counter(page) " of " counter(pages);
                 font-family: system-ui, sans-serif;
                 font-size: 8pt;
                 color: #6b7280;
@@ -338,50 +342,6 @@
             .report-container {
               max-width: 100%;
               margin: 0 auto;
-            }
-
-            /* Header Section */
-            .brand-header {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              border-bottom: 2px solid #0d5c56;
-              padding-bottom: 12px;
-              margin-bottom: 20px;
-              break-inside: avoid;
-              page-break-inside: avoid;
-            }
-
-            .brand-logo {
-              display: flex;
-              align-items: center;
-              gap: 12px;
-              font-weight: 700;
-              font-size: 16pt;
-              color: #0d5c56;
-            }
-
-            .brand-logo img {
-              width: 50px;
-              height: 50px;
-              object-fit: contain;
-              border-radius: 8px;
-            }
-
-            .report-meta {
-              text-align: right;
-              font-size: 9pt;
-              color: #4b5563;
-            }
-
-            .report-meta .report-id {
-              font-weight: 700;
-              color: #0d5c56;
-              font-size: 10pt;
-            }
-
-            .report-meta .report-date {
-              color: #6b7280;
             }
 
             /* Grid layout for patient details */
@@ -562,82 +522,12 @@
             .document-disclaimer strong {
               color: #92400e;
             }
-
-            .footer-branding {
-              margin-top: 20px;
-              padding-top: 15px;
-              border-top: 2px solid #0d5c56;
-              text-align: center;
-              break-inside: avoid;
-              page-break-inside: avoid;
-            }
-
-            .footer-branding .logo-section {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              gap: 10px;
-              margin-bottom: 8px;
-            }
-
-            .footer-branding .logo-section img {
-              width: 35px;
-              height: 35px;
-              object-fit: contain;
-              border-radius: 6px;
-            }
-
-            .footer-branding .logo-text {
-              font-weight: 600;
-              font-size: 12pt;
-              color: #0d5c56;
-            }
-
-            .footer-branding .tagline {
-              font-size: 8pt;
-              color: #6b7280;
-              margin-bottom: 4px;
-            }
-
-            .footer-branding .website {
-              font-size: 9pt;
-              color: #0d5c56;
-              font-weight: 600;
-              text-decoration: none;
-            }
-
-            .footer-branding .report-authentication {
-              font-size: 8pt;
-              color: #6b7280;
-              margin-top: 8px;
-              padding: 8px;
-              background-color: #f9fafb;
-              border-radius: 4px;
-            }
-
-            .footer-branding .copyright {
-              font-size: 7pt;
-              color: #9ca3af;
-              margin-top: 8px;
-            }
           </style>
         </head>
-        <body data-report-id="${reportId}">
+        <body data-report-id="${reportId}" data-report-date="${reportDate} ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}">
 
           <div class="report-container">
             
-            <!-- Brand Header -->
-            <div class="brand-header">
-              <div class="brand-logo">
-                <img src="images/logo.jpeg" alt="sandu-sula logo" onerror="this.style.display='none'; this.parentNode.innerHTML='🌿';" />
-                <span>sandu-sula</span>
-              </div>
-              <div class="report-meta">
-                <div class="report-id">Report ID: ${reportId}</div>
-                <div class="report-date"><strong>Report Date:</strong> ${reportDate}</div>
-              </div>
-            </div>
-
             <!-- Patient Information Section -->
             <div class="patient-info-box">
               <h3 class="section-title">Patient Information</h3>
@@ -718,20 +608,6 @@
               <strong>Digital Generation Notice:</strong> This is a digitally generated document produced by sandu-sula. It serves as an educational risk-screening tool and does not substitute for professional medical diagnosis, advice, or treatment.
             </div>
 
-            <!-- Footer Branding -->
-            <div class="footer-branding">
-              <div class="logo-section">
-                <img src="images/logo.jpeg" alt="sandu-sula logo" onerror="this.style.display='none'; this.parentNode.innerHTML='🌿';" />
-                <div class="logo-text">sandu-sula</div>
-              </div>
-              <div class="tagline">A kinder way to begin understanding joint health</div>
-              <a href="https://www.sandusula.com" class="website">www.sandusula.com</a>
-              <div class="report-authentication">
-                <strong>Authenticated Report:</strong> This document is uniquely identified by Report ID <strong>${reportId}</strong> and generated on ${reportDate}. Verify authenticity at www.sandusula.com
-              </div>
-              <div class="copyright">© ${new Date().getFullYear()} sandu-sula. All rights reserved.</div>
-            </div>
-
           </div>
 
         </body>
@@ -740,8 +616,8 @@
 
       // PDF generation options with proper page handling
       const opt = {
-        margin: [20, 15, 20, 15], // Top, Right, Bottom, Left in mm
-        filename: `sandusula-report-${reportId}-${onboardingData.fullName || 'patient'}.pdf`,
+        margin: [25, 15, 25, 15], // Top, Right, Bottom, Left in mm (increased for header/footer)
+        filename: `sandusula-report-${reportId}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
           scale: 2, 
@@ -763,29 +639,108 @@
 
       // Generate and download PDF
       try {
-        html2pdf().set(opt).from(pdfContent).save().then(() => {
-          document.getElementById('test-results').innerHTML = `
-            <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-top: 20px;">
-              <strong>✓ Success!</strong> PDF has been generated and downloaded successfully.
-              <br><br>
-              <div style="font-size: 13px; margin-top: 10px;">
-                <strong>Report Details:</strong><br>
-                • Report ID: ${reportId}<br>
-                • Report Date: ${reportDate}<br>
-                • Patient: ${onboardingData.fullName}<br>
-                • Risk Level: ${resultsData.badge} (${(resultsData.ratio * 100).toFixed(1)}%)<br>
-                • Score: ${resultsData.score}/${resultsData.maxScore}<br>
-                • Filename: ${opt.filename}
-              </div>
-            </div>
-          `;
-        }).catch(err => {
-          document.getElementById('test-results').innerHTML = `
-            <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-top: 20px;">
-              <strong>✗ Error:</strong> ${err.message}
-            </div>
-          `;
+        // Load logo image first
+        const logoImg = new Image();
+        logoImg.crossOrigin = 'anonymous';
+        logoImg.src = 'images/logo.jpeg';
+        
+        await new Promise((resolve, reject) => {
+          logoImg.onload = resolve;
+          logoImg.onerror = () => resolve(); // Continue even if image fails to load
+          // Set a timeout in case image loading hangs
+          setTimeout(resolve, 2000);
         });
+
+        html2pdf()
+          .set(opt)
+          .from(pdfContent)
+          .toPdf()
+          .get('pdf').then(function(pdf) {
+            // Add headers and footers to all pages
+            const totalPages = pdf.internal.getNumberOfPages();
+            
+            for (let i = 1; i <= totalPages; i++) {
+              pdf.setPage(i);
+              
+              // Add header with logo
+              try {
+                if (logoImg.complete && logoImg.naturalWidth > 0) {
+                  pdf.addImage(logoImg, 'JPEG', 15, 6, 8, 8);
+                  pdf.setFontSize(10);
+                  pdf.setTextColor(13, 92, 86); // #0d5c56
+                  pdf.setFont('helvetica', 'bold');
+                  pdf.text('sandu-sula', 26, 12);
+                } else {
+                  // Fallback to emoji if image doesn't load
+                  pdf.setFontSize(10);
+                  pdf.setTextColor(13, 92, 86); // #0d5c56
+                  pdf.setFont('helvetica', 'bold');
+                  pdf.text('🌿 sandu-sula', 15, 12);
+                }
+              } catch (e) {
+                // Fallback to emoji if there's an error
+                pdf.setFontSize(10);
+                pdf.setTextColor(13, 92, 86); // #0d5c56
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('🌿 sandu-sula', 15, 12);
+              }
+              
+              pdf.setFontSize(8);
+              pdf.setTextColor(75, 85, 99); // #4b5563
+              pdf.setFont('helvetica', 'normal');
+              pdf.text(`Report ID: ${reportId}`, 140, 12);
+              pdf.text(`${reportDate} ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`, 140, 17);
+              
+              // Header line
+              pdf.setDrawColor(13, 92, 86);
+              pdf.setLineWidth(0.3);
+              pdf.line(15, 20, 195, 20);
+              
+              // Add footer
+              pdf.setDrawColor(229, 231, 235); // #e5e7eb
+              pdf.setLineWidth(0.2);
+              pdf.line(15, 280, 195, 280);
+              
+              pdf.setFontSize(8);
+              pdf.setTextColor(107, 114, 128); // #6b7280
+              pdf.setFont('helvetica', 'normal');
+              
+              // Right side - Page number and website
+              const footerText = `www.sandusula.com | Page ${i} of ${totalPages}`;
+              const textWidth = pdf.getTextWidth(footerText);
+              pdf.text(footerText, 195 - textWidth, 285);
+              
+              // Left - Copyright
+              pdf.setFontSize(7);
+              pdf.setTextColor(156, 163, 175); // #9ca3af
+              pdf.text(`© ${new Date().getFullYear()} sandu-sula. All rights reserved.`, 15, 285);
+            }
+          })
+          .save()
+          .then(() => {
+            document.getElementById('test-results').innerHTML = `
+              <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <strong>✓ Success!</strong> PDF has been generated and downloaded successfully with headers and footers.
+                <br><br>
+                <div style="font-size: 13px; margin-top: 10px;">
+                  <strong>Report Details:</strong><br>
+                  • Report ID: ${reportId}<br>
+                  • Report Date: ${reportDate}<br>
+                  • Patient: ${onboardingData.fullName}<br>
+                  • Risk Level: ${resultsData.badge} (${(resultsData.ratio * 100).toFixed(1)}%)<br>
+                  • Score: ${resultsData.score}/${resultsData.maxScore}<br>
+                  • Filename: ${opt.filename}
+                </div>
+              </div>
+            `;
+          })
+          .catch(err => {
+            document.getElementById('test-results').innerHTML = `
+              <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <strong>✗ Error:</strong> ${err.message}
+              </div>
+            `;
+          });
       } catch (error) {
         document.getElementById('test-results').innerHTML = `
           <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-top: 20px;">
